@@ -11,8 +11,8 @@ function setupGame() {
     gs.prolific_info.prolificStudyID = jsPsych.data.getURLVariable('STUDY_ID');
     gs.prolific_info.prolificSessionID = jsPsych.data.getURLVariable('SESSION_ID');
     // generate a random subject ID that contains 8 alphanumeric characters
-    const subjectID = jsPsych.randomization.randomID(8);
-    console.log(subjectID)
+    const subjectID = 'subj-' + jsPsych.randomization.randomID(8);
+    console.log(subjectID);
 
     // add the ID to the data for all trials
     jsPsych.data.addProperties({
@@ -309,34 +309,19 @@ function setupGame() {
             } else {
                 return true;
             }
-        },
-        on_finish: function (data) {
-
-            fetch("https://pipe.jspsych.org/api/data/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "*/*",
-                },
-                body: JSON.stringify({
-                    experimentID: "QfDbTqD2CCg8",
-                    filename: `${subjectID}_comprehension.json`,
-                    data: JSON.stringify(data),
-                }),
-            });
         }
     };
     timeline.push(comprehension_loop);
 
     // save all current data to datapipe
-    const save_all_data = {
+    const save_till_comprehension = {
         type: jsPsychPipe,
         action: "save",
         experiment_id: gs.study_metadata.experimentIdOSF,
-        filename: `${jsPsych.data.dataProperties.subjectID}_comprehension_all.json`,
+        filename: `${jsPsych.data.dataProperties.subjectID}_part1.json`,
         data_string: () => jsPsych.data.get().json()
     };
-    // timeline.push(save_all_data);
+    timeline.push(save_till_comprehension);
 
     // #endregion
 
@@ -588,22 +573,6 @@ function setupGame() {
                 riddle_label: riddle.riddle_label,
                 condition: gs.session_info.condition,
                 riddle_number: trialnum,
-            },
-            on_finish: function () {
-                this_trial_data['similarity'] = jsPsych.data.getLastTrialData();
-
-                fetch("https://pipe.jspsych.org/api/data/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Accept: "*/*",
-                    },
-                    body: JSON.stringify({
-                        experimentID: "QfDbTqD2CCg8",
-                        filename: `${subjectID}_stumper_${trialnum}.json`,
-                        data: this_trial_data,
-                    }),
-                });
             }
         };
         riddleTrials.push(questionTrial, confidenceTrial, similarityTrial);
@@ -611,6 +580,16 @@ function setupGame() {
 
     main_experiment_list.push([preRiddleMessage, ...riddleTrials])
 
+
+    // save all current data to datapipe
+    const save_till_part2 = {
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: gs.study_metadata.experimentIdOSF,
+        filename: `${jsPsych.data.dataProperties.subjectID}_part2.json`,
+        data_string: () => jsPsych.data.get().json()
+    };
+    timeline.push(save_till_part2);
     // #endregion
 
     // #region CRT trials
@@ -676,23 +655,20 @@ function setupGame() {
                         message.textContent = `Please write at least ${minLength} characters.`;
                     }
                 });
-            },
-            on_finish: function () {
-                fetch("https://pipe.jspsych.org/api/data/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Accept: "*/*",
-                    },
-                    body: JSON.stringify({
-                        experimentID: "QfDbTqD2CCg8",
-                        filename: `${subjectID}_crt_${trial_number}.json`,
-                        data: jsPsych.data.getLastTrialData(),
-                    }),
-                });
             }
         };
     });
+    main_experiment_list.push([preCRTMessage, ...crtTrials])
+
+    // save all current data to datapipe
+    const save_till_part3 = {
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: gs.study_metadata.experimentIdOSF,
+        filename: `${jsPsych.data.dataProperties.subjectID}_part3.json`,
+        data_string: () => jsPsych.data.get().json()
+    };
+    main_experiment_list.push(save_till_part3);
     // #endregion
 
     // #region Exit Survey
@@ -710,6 +686,7 @@ function setupGame() {
             jsPsych.data.dataProperties.session_timing['startSurveyTS'] = Date.now();
         }
     };
+    main_experiment_list.push(preExitMessage);
 
     const all_riddle_text = riddleSequence.map(r => r.riddle_text).concat(crt.map(r => r.riddle_text));
     all_riddle_text.forEach((item, index) => all_riddle_text[index] = item.replace(/<br>/g, "  "));
@@ -839,22 +816,19 @@ function setupGame() {
                     ]
                 },
             ]
-        },
-        on_finish: function () {
-            fetch("https://pipe.jspsych.org/api/data/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "*/*",
-                },
-                body: JSON.stringify({
-                    experimentID: "QfDbTqD2CCg8",
-                    filename: `${subjectID}_exit.json`,
-                    data: jsPsych.data.getLastTrialData(),
-                }),
-            });
         }
     };
+    main_experiment_list.push(exitSurvey);
+
+    // save all current data to datapipe
+    const save_all_data = {
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: gs.study_metadata.experimentIdOSF,
+        filename: `${jsPsych.data.dataProperties.subjectID}.json`,
+        data_string: () => jsPsych.data.get().json()
+    };
+    main_experiment_list.push(save_all_data);
     // #endregion
 
     // #region Goodbye and redirect to Prolific
@@ -877,11 +851,6 @@ function setupGame() {
             window.open('https://app.prolific.com/submissions/complete?cc=CN3X39CF', '_self')
         }
     };
-
-    // combine test trials into a timeline
-    main_experiment_list.push([preCRTMessage, ...crtTrials])
-    main_experiment_list.push(preExitMessage);
-    main_experiment_list.push(exitSurvey);
     main_experiment_list.push(goodbye);
 
     const main_experiment_timeline = {
