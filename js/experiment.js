@@ -28,11 +28,14 @@ function setupGame() {
     // #endregion
 
     // #region Captcha
+    var captcha_data = {};
+
     const captcha_trial = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: '', // Blank screen while the overlay is visible
         choices: "NO_KEYS",
         on_load: function () {
+            document.getElementById("jspsych-progressbar-container").style.visibility = "hidden";// hide progress bar
             const container = document.getElementById('captcha-container');
             const btn = document.getElementById('captcha-proceed');
             const widgetTarget = document.getElementById('turnstile-widget');
@@ -45,11 +48,32 @@ function setupGame() {
                 if (typeof turnstile !== 'undefined') {
                     turnstile.render('#turnstile-widget', {
                         sitekey: '0x4AAAAAAB7QSd0CO5eotyUL',
-                        callback: function (token) {
-                            window.captchaToken = token;
+                        callback: async function (token) {
+                            captcha_data.token = token;
+
+                            // Server-side verification via Cloudflare Worker
+                            if (gs.verifyWorkerUrl) {
+                                try {
+                                    const res = await fetch(gs.verifyWorkerUrl, {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ token }),
+                                    });
+                                    const verification = await res.json();
+                                    captcha_data.server_verified = verification.success;
+                                    captcha_data.challenge_ts = verification.challenge_ts;
+                                    captcha_data.hostname = verification.hostname;
+                                    captcha_data.verify_error_codes = verification.error_codes;
+                                } catch (err) {
+                                    captcha_data.server_verified = null;
+                                    captcha_data.verify_error = err.message;
+                                }
+                            }
+
                             btn.style.display = 'inline-block';
                         },
-                        'error-callback': function () {
+                        'error-callback': function (errorCode) {
+                            captcha_data.errorCode = errorCode;
                             widgetTarget.innerHTML =
                                 '<p style="color: #b22222;">Verification error. Please try reloading the page.</p>';
                         }
@@ -70,7 +94,7 @@ function setupGame() {
 
             btn.onclick = () => {
                 container.style.display = 'none';
-                jsPsych.finishTrial({ captcha_token: window.captchaToken });
+                jsPsych.finishTrial(captcha_data);
             };
         }
     };
@@ -124,7 +148,6 @@ function setupGame() {
         `,
         response_ends_trial: false,
         on_load: function () {
-            document.querySelector('#jspsych-progressbar-container').style.display = 'none';
             const declineButton = document.getElementById('consent-decline');
             declineButton.textContent = 'DECLINE';
             declineButton.addEventListener('click', () => {
@@ -182,7 +205,10 @@ function setupGame() {
         ],
         show_clickable_nav: true,
         allow_backward: false,
-        data: { study_phase: "instructions" }
+        data: { study_phase: "instructions" },
+        on_load: function () {
+            document.getElementById("jspsych-progressbar-container").style.visibility = "visible";
+        }
     };
     timeline.push(instructions);
 
@@ -390,7 +416,6 @@ function setupGame() {
         choices: ['Start'],
         on_finish: function () {
             jsPsych.data.dataProperties.session_timing['startRiddlesTS'] = Date.now();
-            document.querySelector('#jspsych-progressbar-container').style.display = 'block';
         }
     };
 
@@ -605,7 +630,7 @@ function setupGame() {
         filename: `${jsPsych.data.dataProperties.subjectID}_part2.json`,
         data_string: () => jsPsych.data.get().json()
     };
-    timeline.push(save_till_part2);
+    main_experiment_list.push(save_till_part2);
     // #endregion
 
     // #region CRT trials
@@ -624,7 +649,6 @@ function setupGame() {
         choices: ['Start'],
         on_finish: function () {
             jsPsych.data.dataProperties.session_timing['startRiddlesTS'] = Date.now();
-            document.querySelector('#jspsych-progressbar-container').style.display = 'block';
         }
     };
     var crtTrials = crt.map((item, trial_number) => {

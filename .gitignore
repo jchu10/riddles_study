@@ -4,4 +4,7 @@ results/*
 !results/.gitkeep
 .Rproj.user
 **/.DS_Store
-**/.pem
+**/*.pem
+node_modules/
+.wrangler/
+.DS_Store
