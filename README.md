@@ -16,10 +16,12 @@ Data is saved incrementally via DataPipe at 4 checkpoints (after comprehension, 
 
 ## File Structure
 
-├── `index.html` — Entry point. Loads all scripts/CSS from CDN. Contains the captcha-container overlay div and a honeypot email field for bot detection.
-├── `css/style.css` — All custom styles including content boxes, sliders, riddle prompts, captcha overlay.
-└── `js`
-| ├── `experiment.js` — Main experiment logic. The `setupGame()` function builds the full jsPsych timeline and calls `jsPsych.run()`.
-| ├── `game_settings.js` — Configuration object (`gs`): study metadata (num riddles, min response length/time, comprehension attempts), session info (condition), Prolific URL params, Cloudflare Turnstile site key.
-| └── `stimuli.js` — Riddle stimuli (`stimuli` array: 9 riddles across 3 categories — quantity, viewing, common) and CRT items (`crt` array: 6 cognitive reflection test items).
-└── `analysis/preprocessing/json_to_csv.R` — R script for converting JSON data to CSV.
+```
+├── index.html — Entry point. Loads all scripts/CSS from CDN. Contains the captcha-container overlay div and a honeypot email field for bot detection.
+├── css/style.css — All custom styles including content boxes, sliders, riddle prompts, captcha overlay.
+└── js
+| ├── experiment.js — Main experiment logic. The setupGame() function builds the full jsPsych timeline and calls jsPsych.run().
+| ├── game_settings.js — Configuration object (gs): study metadata (num riddles, min response length/time, comprehension attempts), session info (condition), Prolific URL params, Cloudflare Turnstile site key.
+| └── stimuli.js — Riddle stimuli (stimuli array: 9 riddles across 3 categories — quantity, viewing, common) and CRT items (crt array: 6 cognitive reflection test items).
+└── analysis/preprocessing/json_to_csv.R — R script for converting JSON data to CSV.
+```

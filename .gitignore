@@ -3,6 +3,7 @@ data/*
 results/*
 !results/.gitkeep
 .Rproj.user
+.DS_Store
 **/.DS_Store
 **/*.pem
 node_modules/
