@@ -56,33 +56,33 @@ var stimuli = [{
 
 var crt = [
     {
-        "riddle_label": "n_fruit",
-        "riddle_text": "A watermelon and a banana cost $1.10 in total. The watermelon costs $1.00 more than the banana. How much does the banana cost?",
-        "riddle_answer": "$0.05"
+        "riddle_label": "crt_fruit",
+        "riddle_text": "Two planes take off at the same moment. Plane A leaves New York and is flying to Paris at 550 miles per hour. Plane B leaves New York and is flying to Paris at 350 miles per hour. Which plane will be closer to Paris when they meet after take-off?",
+        "riddle_answer": "They will be at the same distance from Paris when they meet."
     },
     {
-        "riddle_label": "n_virus",
-        "riddle_text": "A viral strain is spreading through the city. Every day, the number of infected individuals doubles. If the entire population is infected after 24 days, how long would it take for the virus to infect half the population?",
-        "riddle_answer": "23 days"
+        "riddle_label": "crt_wind",
+        "riddle_text": "The wind blows west. An electric train runs east. In which cardinal direction does the smoke from the locomotive blow?",
+        "riddle_answer": "Electric trains don't produce smoke."
     },
     {
-        "riddle_label": "n_chefs",
-        "riddle_text": "If it takes 5 chefs 5 minutes to make 5 pizzas, how long would it take 60 chefs to make 60 pizzas?",
-        "riddle_answer": "5 minutes"
+        "riddle_label": "crt_pink",
+        "riddle_text": "In a one-story pink house, there was a pink person, a pink cat, a pink fish, a pink computer, a pink chair, a pink table, a pink telephone, a pink shower -– everything was pink! What color were the stairs?",
+        "riddle_answer": "There are no stairs in a one-story house."
     },
     {
-        "riddle_label": "v_coconut",
+        "riddle_label": "crt_coconut",
         "riddle_text": "A monkey, a squirrel, and a bird are racing to the top of a coconut tree. Who will get the banana first, the monkey, the squirrel, or the bird?",
         "riddle_answer": "None of them, because coconut trees don't grow bananas."
     },
     {
-        "riddle_label": "v_sally",
-        "riddle_text": "Sally's mother has 5 daughters but no sons — Lala, Lele, Lili, Lolo. What is the fifth daughter's name?",
-        "riddle_answer": "Sally"
+        "riddle_label": "crt_egg",
+        "riddle_text": "Which sentence is correct: a) “the yolk of the egg are white” or b) “the yolk of the egg is white”?",
+        "riddle_answer": "Neither, the yolk is yellow"
     },
     {
-        "riddle_label": "v_matchstick",
-        "riddle_text": "If you have only one match and you walk into a dark room where there is a candle, a pile of dry leaves, and a log — which thing would you light first?",
+        "riddle_label": "crt_matchstick",
+        "riddle_text": "If you have only one match and you walk into a dark room where there is an oil lamp, a pile of dry leaves, and a log — which thing would you light first?",
         "riddle_answer": "The match"
     }
 ]
