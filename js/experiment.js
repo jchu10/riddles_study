@@ -476,6 +476,7 @@ function setupGame() {
                     <div id="validation-msg-${riddle.riddle_label}" class="validation-msg"></div>
                 </div>
             `,
+            choices: "NO_KEYS",
             response_ends_trial: false,
             on_load: function () {
                 startTime = performance.now();
@@ -546,6 +547,7 @@ function setupGame() {
                     <div id="button-container-c-${riddle.riddle_label}"></div>
                 </div>
             `,
+            choices: "NO_KEYS",
             response_ends_trial: false,
             on_load: function () {
                 startTime = performance.now();
@@ -588,6 +590,7 @@ function setupGame() {
                     <div id="button-container-s-${riddle.riddle_label}" class="similarity-buttons"></div>
                 </div>
             `,
+            choices: "NO_KEYS",
             response_ends_trial: false,
             on_load: function () {
                 startTime = performance.now();
@@ -662,6 +665,7 @@ function setupGame() {
                 <div id="validation-msg-${item.riddle_label}" class="validation-message"></div>
                 </div>
         `,
+            choices: "NO_KEYS",
             response_ends_trial: false,
             data: {
                 study_phase: 'crt',
