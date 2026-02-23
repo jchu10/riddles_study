@@ -32,6 +32,8 @@ function setupGame() {
 
     const captcha_trial = {
         type: jsPsychHtmlKeyboardResponse,
+        choices: "NO_KEYS",
+        response_ends_trial: false,
         stimulus: '', // Blank screen while the overlay is visible
         on_load: function () {
             document.getElementById("jspsych-progressbar-container").style.visibility = "hidden";// hide progress bar
@@ -46,6 +48,7 @@ function setupGame() {
             function tryRender() {
                 if (typeof turnstile !== 'undefined') {
                     turnstile.render('#turnstile-widget', {
+                        // sitekey: '1x00000000000000000000AA', // testing
                         sitekey: '0x4AAAAAAB7QSd0CO5eotyUL',
                         callback: async function (token) {
                             captcha_data.token = token;
@@ -145,6 +148,7 @@ function setupGame() {
                 <div id="consent-decline" class="jspsych-btn" style="text-align: center; margin-top: 20px;"></div>
             </div>
         `,
+        choices: "NO_KEYS",
         response_ends_trial: false,
         on_load: function () {
             const declineButton = document.getElementById('consent-decline');
@@ -419,8 +423,6 @@ function setupGame() {
     };
 
     var riddleTrials = [];
-    // const conditions = ['grouped'];
-    // gs.session_info.condition = jsPsych.randomization.sampleWithReplacement(conditions, 1)[0];
     let riddleSequence = [];
     if (gs.session_info.condition === 'fixed') {
         riddleSequence = [...stimuli]
