@@ -13,7 +13,7 @@ gs = {
     // Set to your deployed Cloudflare Worker URL. Set to "" to skip server-side verification (client-only mode)
     verifyWorkerUrl: "https://stumpers-verify.jchu10.workers.dev",
     session_info: {
-        condition: "fixed", // "grouped", "mixed", "fixed", "shuffled"
+        condition: "grouped", // "grouped", "mixed", "fixed", "shuffled"
         pot1: undefined, // email_address on landing
         pot2: undefined, // email_address on index
     },
