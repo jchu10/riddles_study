@@ -1,4 +1,4 @@
-name = "stumpers-verify"
+name = "riddles"
 main = "worker/src/index.js" # Path to your worker entry point
 compatibility_date = "2024-04-01"
 
