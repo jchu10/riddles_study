@@ -1,6 +1,8 @@
 const ALLOWED_ORIGINS = [
   "https://jchu10.github.io",
   "https://localhost:8000",
+  "https://stumpers-verify.jchu10.workers.dev",
+  "https://riddles.jchu10.workers.dev",
 ];
 
 function corsHeaders(origin) {
