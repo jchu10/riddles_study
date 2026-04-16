@@ -2,10 +2,6 @@ name = "stumpers-verify"
 main = "src/index.js"
 compatibility_date = "2024-12-01"
 
-[assets]
-directory = "./" # or wherever your index.html lives
-binding = "ASSETS"
-
 [observability]
 enabled = false
 head_sampling_rate = 1
