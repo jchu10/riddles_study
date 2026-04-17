@@ -7,6 +7,7 @@ const ALLOWED_ORIGINS = [
 
 function corsHeaders(origin) {
   if (!ALLOWED_ORIGINS.includes(origin)) {
+    console.log("Origin not allowed:", origin); // debug
     return {};
   }
   return {
