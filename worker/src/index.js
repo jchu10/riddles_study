@@ -11,7 +11,7 @@ function corsHeaders(origin) {
   }
   return {
     "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Methods": "POST",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
 }
@@ -23,7 +23,7 @@ export default {
 
     // Handle preflight
     if (request.method === "OPTIONS") {
-      return new Response(null, { headers });
+      return new Response(null, { status: 204, headers });
     }
 
     if (request.method !== "POST") {

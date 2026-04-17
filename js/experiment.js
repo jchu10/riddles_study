@@ -12,7 +12,7 @@ function setupGame() {
     gs.prolific_info.prolificSessionID = jsPsych.data.getURLVariable('SESSION_ID');
     // generate a random subject ID that contains 8 alphanumeric characters
     const subjectID = 'subj-' + jsPsych.randomization.randomID(8);
-    // console.log(subjectID);
+    console.log(subjectID);
 
     // add the ID to the data for all trials
     jsPsych.data.addProperties({
