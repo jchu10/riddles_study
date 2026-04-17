@@ -23,7 +23,12 @@ export default {
     console.log("Origin header:", request.headers.get("Origin")); // debug
 
     const origin = request.headers.get("Origin") || "";
-    const headers = corsHeaders(origin);
+    // const headers = corsHeaders(origin);
+    const headers = {
+      "Access-Control-Allow-Origin": "*",  // Allow all for now
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
 
     // Handle preflight
     if (request.method === "OPTIONS") {
