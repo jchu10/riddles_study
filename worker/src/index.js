@@ -18,6 +18,9 @@ function corsHeaders(origin) {
 
 export default {
   async fetch(request, env) {
+    console.log("Request method:", request.method); // debug
+    console.log("Origin header:", request.headers.get("Origin")); // debug
+
     const origin = request.headers.get("Origin") || "";
     const headers = corsHeaders(origin);
 
