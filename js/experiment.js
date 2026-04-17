@@ -56,14 +56,14 @@ function setupGame() {
                             // Server-side verification via Cloudflare Worker
                             if (gs.verifyWorkerUrl) {
                                 try {
-                                    console.log("Verifying token with server..."); // debug
+                                    // console.log("Verifying token with server..."); // debug
                                     const res = await fetch(gs.verifyWorkerUrl, {
                                         method: "POST",
                                         headers: { "Content-Type": "application/json" },
                                         body: JSON.stringify({ token }),
                                     });
                                     const verification = await res.json();
-                                    console.log("Verification response:", verification); // debug
+                                    // console.log("Verification response:", verification); // debug
                                     captcha_data.server_verified = verification.success;
                                     captcha_data.challenge_ts = verification.challenge_ts;
                                     captcha_data.hostname = verification.hostname;
@@ -97,7 +97,7 @@ function setupGame() {
             tryRender();
 
             btn.onclick = () => {
-                console.log('Captcha data:', captcha_data); // debugging
+                // console.log('Captcha data:', captcha_data); // debugging
                 container.style.display = 'none';
                 jsPsych.finishTrial(captcha_data);
             };

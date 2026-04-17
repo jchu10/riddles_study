@@ -1,13 +1,13 @@
 const ALLOWED_ORIGINS = [
   "https://jchu10.github.io",
-  "https://localhost:8000",
-  "https://stumpers-verify.jchu10.workers.dev",
+  // "https://localhost:8000",
+  // "https://stumpers-verify.jchu10.workers.dev",
   "https://riddles.jchu10.workers.dev",
 ];
 
 function corsHeaders(origin) {
   if (!ALLOWED_ORIGINS.includes(origin)) {
-    console.log("Origin not allowed:", origin); // debug
+    console.error("Origin not allowed:", origin); // debug
     return {};
   }
   return {
@@ -19,16 +19,11 @@ function corsHeaders(origin) {
 
 export default {
   async fetch(request, env) {
-    console.log("Request method:", request.method); // debug
-    console.log("Origin header:", request.headers.get("Origin")); // debug
+    // console.log("Request method:", request.method); // debug
+    // console.log("Origin header:", request.headers.get("Origin")); // debug
 
     const origin = request.headers.get("Origin") || "";
-    // const headers = corsHeaders(origin);
-    const headers = {
-      "Access-Control-Allow-Origin": "*",  // Allow all for now
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    };
+    const headers = corsHeaders(origin);
 
     // Handle preflight
     if (request.method === "OPTIONS") {
