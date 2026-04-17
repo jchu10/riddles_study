@@ -12,7 +12,7 @@ function setupGame() {
     gs.prolific_info.prolificSessionID = jsPsych.data.getURLVariable('SESSION_ID');
     // generate a random subject ID that contains 8 alphanumeric characters
     const subjectID = 'subj-' + jsPsych.randomization.randomID(8);
-    console.log(subjectID);
+    // console.log(subjectID);
 
     // add the ID to the data for all trials
     jsPsych.data.addProperties({
@@ -95,6 +95,7 @@ function setupGame() {
             tryRender();
 
             btn.onclick = () => {
+                console.log('Captcha data:', captcha_data); // debugging
                 container.style.display = 'none';
                 jsPsych.finishTrial(captcha_data);
             };
@@ -383,7 +384,7 @@ function setupGame() {
         choices: ['Return to Prolific'],
         on_finish: function () {
             window.onbeforeunload = null;
-            window.open('https://app.prolific.com/submissions/complete?cc=CBWZSU08', '_self');
+            window.open('https://app.prolific.com/submissions/complete?cc=CS2MWKTU', '_self');
         }
     };
 
@@ -893,7 +894,7 @@ function setupGame() {
         data: { study_phase: "exit survey" },
         on_finish: () => {
             window.onbeforeunload = null;
-            window.open('https://app.prolific.com/submissions/complete?cc=CN3X39CF', '_self')
+            window.open('https://app.prolific.com/submissions/complete?cc=C1LU4NJ8', '_self')
         }
     };
     main_experiment_list.push(goodbye);
