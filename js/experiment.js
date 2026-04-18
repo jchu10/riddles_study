@@ -56,12 +56,14 @@ function setupGame() {
                             // Server-side verification via Cloudflare Worker
                             if (gs.verifyWorkerUrl) {
                                 try {
+                                    // console.log("Verifying token with server..."); // debug
                                     const res = await fetch(gs.verifyWorkerUrl, {
                                         method: "POST",
                                         headers: { "Content-Type": "application/json" },
                                         body: JSON.stringify({ token }),
                                     });
                                     const verification = await res.json();
+                                    // console.log("Verification response:", verification); // debug
                                     captcha_data.server_verified = verification.success;
                                     captcha_data.challenge_ts = verification.challenge_ts;
                                     captcha_data.hostname = verification.hostname;
@@ -95,6 +97,7 @@ function setupGame() {
             tryRender();
 
             btn.onclick = () => {
+                // console.log('Captcha data:', captcha_data); // debugging
                 container.style.display = 'none';
                 jsPsych.finishTrial(captcha_data);
             };
@@ -383,7 +386,7 @@ function setupGame() {
         choices: ['Return to Prolific'],
         on_finish: function () {
             window.onbeforeunload = null;
-            window.open('https://app.prolific.com/submissions/complete?cc=CBWZSU08', '_self');
+            window.open('https://app.prolific.com/submissions/complete?cc=CS2MWKTU', '_self');
         }
     };
 
@@ -893,7 +896,7 @@ function setupGame() {
         data: { study_phase: "exit survey" },
         on_finish: () => {
             window.onbeforeunload = null;
-            window.open('https://app.prolific.com/submissions/complete?cc=CN3X39CF', '_self')
+            window.open('https://app.prolific.com/submissions/complete?cc=C1LU4NJ8', '_self')
         }
     };
     main_experiment_list.push(goodbye);
